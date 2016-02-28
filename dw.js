@@ -1,4 +1,5 @@
-//Oscar Tigreros 1326645
+//Oscar Tigreros   1326645
+//Jhon Erik Avila  1210209
 //Vida Artificial Universidad del Valle 2015
 var debug = false;
 
@@ -48,12 +49,14 @@ var daisyWorld = {
 	tasa_muerte: 0.3,
 
 	//Constante de pasos del modelo
-	Steps: 1000,
+	Steps: 120,
+
 
 
 
 	ejecutar: function(LuminosidadInicial, LuminosidadFinal, PasosLuminosidad){
 		if(debug){$("#resp").append("-> ejecutar");}
+		var data = new Object();
 		var LuminosidadInicial = parseFloat(LuminosidadInicial);		
 		var LuminosidadFinal = parseFloat(LuminosidadFinal);
 		var PasosLuminosidad = parseFloat(PasosLuminosidad);
@@ -71,10 +74,16 @@ var daisyWorld = {
 				"Pasos": PasosLuminosidad,
 				"Actual": luminosidad_actual,
 			};
-			//this.mostrar_datos("<hr>t. planeta: "+this.temp_planeta+"<br>")
+        //this.mostrar_datos("<hr>t. planeta: "+this.temp_planeta+" en iter => ("+i+")<br>")
 		luminosidad_actual = luminosidad_actual + PasosLuminosidad;
+		
+		var myArray = new Object(); // creamos un objeto
+		myArray.pos = i;
+		myArray.temp = Math.round(this.temp_planeta);
 		//console.log(luminosidad_actual);
+		data.dt=myArray;
 		}
+		graficar(data);
 
 	},
 
@@ -94,8 +103,8 @@ var daisyWorld = {
 	},
 
 	reiniciar_poblacion: function(){
-		console.log("poblacion negras "+this.margaritas[1]["Area"]);
-		console.log("poblacion blancas "+this.margaritas[0]["Area"]);
+		//console.log("poblacion negras "+this.margaritas[1]["Area"]);
+		//console.log("poblacion blancas "+this.margaritas[0]["Area"]);
 		for(var i = 0; i < this.margaritas.length; i++){
 			if(this.margaritas[i]["Area"] <= 0.01){
 				this.margaritas[i]["Area"] = 0.01;
@@ -120,7 +129,7 @@ var daisyWorld = {
 		//console.log(this.albedo_planeta);
 		this.reiniciar_poblacion();
 
-		for (var i = 0; i < this.Steps; i++) {
+		for (var i = 0; i < 1; i++) {
 			
 			//console.log("albedo_planeta:");
 			//console.log(this.albedo_planeta);
@@ -132,9 +141,11 @@ var daisyWorld = {
 			this.calcularCambioArea();
 			this.reiniciar_poblacion();
 
-			//this.mostrar_datos("Step ["+i+"]"+" -> no logro hallar las variables para traer los datos que necesito (this.algoquenecesite)");
+			//this.mostrar_datos("Step ["+i+"]"+" -> daisyWorld ==>"+daisyWorld);
 		}
 
+		/*this.mostrar_datos("<hr>t. planeta: "+this.temp_planeta+"<br>")
+		graficar();*/
 		//console.log(daisyWorld);
 
 		return daisyWorld;// retornar temperatura planeta, poblacion margaritas, step.

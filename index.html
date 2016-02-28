@@ -66,14 +66,42 @@
 </div>
 
 <div class="well" id="resp"></div>
+<div class="well" id="resp2"></div>
+<div id="myfirstchart" style="height: 250px;"></div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
 <!-- // Javascript // -->
 <script>
+function graficar(vals){
+
+  //Gráfica de tiempo_población
+  var json = JSON.stringify(vals)
+  console.log(json)
+
+  new Morris.Area({
+    // ID of the element in which to draw the chart.
+    element: 'myfirstchart',
+    // Chart data records -- each entry in this array corresponds to a point on
+    // the chart.
+    data: json,
+    // The name of the data record attribute that contains x-values.
+    xkey: 'pos',
+    parseTime: false,
+    // A list of names of data record attributes that contain y-values.
+    ykeys: ['temp'],
+    // Labels for the ykeys -- will be displayed when you hover over the
+    // chart.
+    labels: ['Temp']
+  });
+}
 $("#enviar").on("click", function(){
 	var x = daisyWorld;
 	var l_ini = $("#l_ini").val();
@@ -82,6 +110,9 @@ $("#enviar").on("click", function(){
 	$("#resp").append("Daisyworld");
 	x.ejecutar(l_ini, l_fin, steps);
 
+});
+$(document).on("ready", function(){
+  
 });
 </script>
 </body>
