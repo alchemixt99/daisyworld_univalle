@@ -2,7 +2,8 @@
 //Jhon Erik Avila  1210209
 //Vida Artificial Universidad del Valle 2015
 var debug = false;
-
+var data_t_n = new Array();
+var data_t_b = new Array();
 var daisyWorld = {
 
 
@@ -49,14 +50,15 @@ var daisyWorld = {
 	tasa_muerte: 0.3,
 
 	//Constante de pasos del modelo
-	Steps: 120,
+	Steps: 300,
 
 
 
 
 	ejecutar: function(LuminosidadInicial, LuminosidadFinal, PasosLuminosidad){
 		if(debug){$("#resp").append("-> ejecutar");}
-		var data = new Object();
+		var data1 = [];
+		var data2 = [];
 		var LuminosidadInicial = parseFloat(LuminosidadInicial);		
 		var LuminosidadFinal = parseFloat(LuminosidadFinal);
 		var PasosLuminosidad = parseFloat(PasosLuminosidad);
@@ -64,6 +66,8 @@ var daisyWorld = {
 
 		var iteraciones = Math.floor((LuminosidadFinal- LuminosidadInicial)/PasosLuminosidad);
 		var luminosidad_actual = LuminosidadInicial;
+
+		var e = 0;
 		//console.log(this.albedo_planeta);
 		for (var i =0; i < iteraciones; i++) {
 			
@@ -74,16 +78,15 @@ var daisyWorld = {
 				"Pasos": PasosLuminosidad,
 				"Actual": luminosidad_actual,
 			};
-        //this.mostrar_datos("<hr>t. planeta: "+this.temp_planeta+" en iter => ("+i+")<br>")
-		luminosidad_actual = luminosidad_actual + PasosLuminosidad;
-		
-		var myArray = new Object(); // creamos un objeto
-		myArray.pos = i;
-		myArray.temp = Math.round(this.temp_planeta);
-		//console.log(luminosidad_actual);
-		data.dt=myArray;
+	        //this.mostrar_datos("<hr>t. planeta: "+this.temp_planeta+" en iter => ("+i+")<br>")
+			luminosidad_actual = luminosidad_actual + PasosLuminosidad;
+				var t = Math.round((this.temp_planeta-273.15));
+				data1[i]={"pos": i, "temp":t};
+				data2[i]={"pos": i, "pobl_b":data_t_b[i],"pobl_n":data_t_n[i]};
+			//console.log(luminosidad_actual);
 		}
-		graficar(data);
+		graficar(data1,1);
+		graficar(data2,2);
 
 	},
 
@@ -124,6 +127,7 @@ var daisyWorld = {
 
 	runSteps: function(Lumens){
 		if(debug){$("#resp").append("<br> -> runSteps");}
+		var data2 = [];
 		var converger = 0;
 		
 		//console.log(this.albedo_planeta);
@@ -141,12 +145,14 @@ var daisyWorld = {
 			this.calcularCambioArea();
 			this.reiniciar_poblacion();
 
-			//this.mostrar_datos("Step ["+i+"]"+" -> daisyWorld ==>"+daisyWorld);
-		}
+			var p = this.margaritas[i]["Area"];
+			//console.log(p.length);
+			data2[i]={"pos": i, "pobl":p};
 
-		/*this.mostrar_datos("<hr>t. planeta: "+this.temp_planeta+"<br>")
-		graficar();*/
-		//console.log(daisyWorld);
+
+			//this.mostrar_datos("Step ["+i+"]"+" -> poblacion ==>"+p);
+		}
+		//graficar(data2,2);
 
 		return daisyWorld;// retornar temperatura planeta, poblacion margaritas, step.
 	},
@@ -217,6 +223,23 @@ var daisyWorld = {
 		for (var i = 0; i < this.margaritas.length; i++) {
 			if(this.margaritas[i]["Enable"]){
 				this.margaritas[i]["Area"] += this.margaritas[i]["Area"] * ((this.margaritas[i]["Tasa_nacimiento"] * tierra) - this.tasa_muerte);
+
+				if (i==1) {
+					if(this.margaritas[i]["Area"]<-1){
+						data_t_n.push(-1);
+					}else{					
+						data_t_n.push(this.margaritas[i]["Area"]);
+					}
+						
+				}else{
+					
+					if(this.margaritas[i]["Area"]<-1){
+						data_t_b.push(-1);
+					}else{					
+						data_t_b.push(this.margaritas[i]["Area"]);
+					}
+				}
+				
 			}
 		}
 	}

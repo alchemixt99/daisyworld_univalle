@@ -60,14 +60,16 @@
 <!-- Button -->
 <div class="form-group">
   <label class="col-md-4 control-label" for="send"></label>
-  <div class="col-md-4">
+  <div class="col-md-2">
     <button id="enviar" name="enviar" class="btn btn-primary">Iniciar</button>
+  </div>
+  <div class="col-md-2">
+    <button id="clear" name="clear" class="btn btn-primary">Clear</button>
   </div>
 </div>
 
-<div class="well" id="resp"></div>
-<div class="well" id="resp2"></div>
-<div id="myfirstchart" style="height: 250px;"></div>
+<div id="temp_chart" style="height: 750px;"></div>
+<div id="pobl_chart" style="height: 250px;"></div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -80,27 +82,46 @@
 
 <!-- // Javascript // -->
 <script>
-function graficar(vals){
+function graficar(vals,opc){
+  switch(opc){
+    case 1:
+      new Morris.Line({
+        // ID of the element in which to draw the chart.
+        element: 'temp_chart',
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: vals,
+        // The name of the data record attribute that contains x-values.
+        xkey: 'pos',
+        parseTime: false,
+        resize:true,
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['temp',],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['Temperatura']
+      });
+    break;
+    case 2:
+      new Morris.Line({
+        // ID of the element in which to draw the chart.
+        element: 'pobl_chart',
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: vals,
+        // The name of the data record attribute that contains x-values.
+        xkey: 'pos',
+        parseTime: false,
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['pobl_n','pobl_b'],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['Poblacion negras', 'Poblacion blancas']
+      });
+    break;
 
-  //Gráfica de tiempo_población
-  var json = JSON.stringify(vals)
-  console.log(json)
-
-  new Morris.Area({
-    // ID of the element in which to draw the chart.
-    element: 'myfirstchart',
-    // Chart data records -- each entry in this array corresponds to a point on
-    // the chart.
-    data: json,
-    // The name of the data record attribute that contains x-values.
-    xkey: 'pos',
-    parseTime: false,
-    // A list of names of data record attributes that contain y-values.
-    ykeys: ['temp'],
-    // Labels for the ykeys -- will be displayed when you hover over the
-    // chart.
-    labels: ['Temp']
-  });
+  }
+  
 }
 $("#enviar").on("click", function(){
 	var x = daisyWorld;
@@ -112,7 +133,10 @@ $("#enviar").on("click", function(){
 
 });
 $(document).on("ready", function(){
-  
+  $("#clear").on("click", function(){
+    $("#temp_chart").empty();
+    $("#pobl_chart").empty();
+  });
 });
 </script>
 </body>
