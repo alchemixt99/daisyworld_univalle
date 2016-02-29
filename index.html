@@ -61,15 +61,71 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="send"></label>
   <div class="col-md-2">
-    <button id="enviar" name="enviar" class="btn btn-primary">Iniciar</button>
-  </div>
-  <div class="col-md-2">
-    <button id="clear" name="clear" class="btn btn-primary">Clear</button>
+    <button id="enviar" name="enviar" class="btn btn-success">Iniciar</button>
+    <button id="clear" name="clear" class="btn btn-success">Limpiar</button>
+    <button id="info" name="info" class="btn btn-warning" data-toggle="modal" data-target="#modal_integrantes">Team...</button>
   </div>
 </div>
 
-<div id="temp_chart" style="height: 750px;"></div>
-<div id="pobl_chart" style="height: 250px;"></div>
+<div class="col-md-12"><br></div>
+<div class="col-md-12">
+<div class="col-md-2"></div>
+<div class="col-md-8">
+  <div class="panel panel-primary">
+  <div class="panel-heading">Temperatura (Celsius) vs Tiempo</div>
+    <div class="panel-body">
+      <div id="temp_chart" style="height: 750px;"></div>
+    </div>
+  </div>
+</div>
+<div class="col-md-2"></div>
+</div>    
+
+<div class="col-md-12">
+<div class="col-md-2"></div>
+<div class="col-md-8">
+  <div class="panel panel-primary">
+  <div class="panel-heading">Poblaci&oacute;n de margaritas vs Tiempo</div>
+    <div class="panel-body">
+      <div id="pobl_chart" style="height: 450px;"></div>
+    </div>
+  </div>
+</div>
+<div class="col-md-2"></div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal_integrantes">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Escuela de Ingenier&iacute;a de Sistemas y Computaci&oacute;n - EISC</h4>
+      </div>
+      <div class="modal-body col-md-12">
+        <div class="col-md-6">
+          <img width="100%" src="univalle-logo.jpg">
+        </div>
+        <div class="col-md-6">
+          <p>
+              <strong>Universidad del Valle</strong><br>
+              <strong>Facultad de Ingenier&iacute;a</strong><br>
+              <strong>Curso: Vida Artificial</strong><br>
+              <strong>Docente: Angel Garc&iacute;a</strong><br>
+              <hr><br>
+              Proyecto Final<br>
+              Jhon Avila       1210209-3743<br>
+              Oscar Tigreros   1326645-3743<br>
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -112,6 +168,7 @@ function graficar(vals,opc){
         // The name of the data record attribute that contains x-values.
         xkey: 'pos',
         parseTime: false,
+        resize:true,
         // A list of names of data record attributes that contain y-values.
         ykeys: ['pobl_n','pobl_b'],
         // Labels for the ykeys -- will be displayed when you hover over the
